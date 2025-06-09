@@ -1,1 +1,13 @@
-﻿Console.WriteLine("Write your code here for practical work 1!!!");
+﻿using System;
+
+namespace PWTrainstation
+{
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            
+        }
+        
+    }
+}
