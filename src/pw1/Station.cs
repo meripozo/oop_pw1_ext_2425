@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Security.Cryptography.X509Certificates;
 /*Platforms (List<Platform>): Collection of all platforms available in the station.
 Trains (List<Train>): Collection of all trains being managed by the station (both en route and docked).
 
@@ -56,18 +57,41 @@ namespace PWTrainstation
             catch (FileNotFoundException e)
             {
                 Console.WriteLine(e.Message);
+                Console.ReadLine();
             }
             catch (FormatException e)
             {
                 Console.WriteLine(e.Message);
+                Console.ReadLine();
             }
             catch (IOException e)
             {
                 Console.WriteLine(e.Message);
+                Console.ReadLine();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                Console.ReadLine();
+            }
+        }
+
+        public void StartSimulation()
+        {
+            
+        }
+        public void DisplayStatus()
+        {
+            Console.WriteLine("TRAIN STATION STATE:");
+            Console.WriteLine("\nPLATFORMS:");
+            foreach (Platform platform in platforms)
+            {
+                platform.ShowPlatformsInfo();
+            }
+            Console.WriteLine("\nTRAINS:");
+            foreach (Train train in trains)
+            {
+                train.ShowTrainsInfo();
             }
         }
     }

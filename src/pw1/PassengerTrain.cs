@@ -14,7 +14,7 @@ namespace PWTrainstation
             this.capacity = capacity;
         }
 
-        public int GeNumberOfCarriages()
+        public int GetNumberOfCarriages()
         {
             return this.numberOfCarriages;
         }
@@ -22,7 +22,7 @@ namespace PWTrainstation
         {
             this.numberOfCarriages = numberOfCarriages;
         }
-        public int GeCapacity()
+        public int GetCapacity()
         {
             return this.capacity;
         }
@@ -31,5 +31,10 @@ namespace PWTrainstation
             this.capacity = capacity;
         }
 
+        public override void ShowTrainsInfo()
+        {
+            base.ShowTrainsInfo();
+            Console.WriteLine($"NumberOfCarriages: {GetNumberOfCarriages()} ; Capacity: {GetCapacity()}");
+        }
     }
 }

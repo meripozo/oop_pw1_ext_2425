@@ -64,9 +64,9 @@ namespace PWTrainstation
             this.status = status;
         }
 
-        public void ShowInfo()
+        public virtual void ShowTrainsInfo()
         {
-            Console.WriteLine($"Id: {GetId()} ; Status: {GetStatus()} ; Arrival Time: {GetArrivalTime()}");
+            Console.Write($"Id: {GetId()} ; Status: {GetStatus()} ; Arrival Time: {GetArrivalTime()} ; Type: {GetType()}");
         }
 
          

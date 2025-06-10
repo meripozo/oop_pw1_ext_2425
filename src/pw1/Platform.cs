@@ -30,7 +30,7 @@ namespace PWTrainstation
 
         }
 
-        public string Getid()
+        public string GetId()
         {
             return this.id;
         }
@@ -38,7 +38,7 @@ namespace PWTrainstation
         {
             this.id = id;
         }
-        public int GeDockingTime()
+        public int GetDockingTime()
         {
             return this.dockingTime;
         }
@@ -59,8 +59,16 @@ namespace PWTrainstation
             this.status = status;
         }
 
-
-
-
+        public void ShowPlatformsInfo()
+        {
+            if (GetStatus() == Status.Free)
+            {
+                Console.Write($"Id: {GetId()} ; Status: {GetStatus()}");
+            }
+            else
+            {
+                Console.Write($"Id: {GetId()} ; Status: {GetStatus()} ; Current Train: {GetCurrentTrain().GetId()} ; Ticks Remaining: {GetDockingTime()}");
+            }
+        }
     }
 }

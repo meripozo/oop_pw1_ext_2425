@@ -14,7 +14,7 @@ namespace PWTrainstation
             this.freightType = freightType;
         }
 
-        public int GeMaxWeight()
+        public int GetMaxWeight()
         {
             return this.maxWeight;
         }
@@ -22,13 +22,19 @@ namespace PWTrainstation
         {
             this.maxWeight = maxWeight;
         }
-        public string GeFreightType()
+        public string GetFreightType()
         {
             return this.freightType;
         }
         public void SetFreightType()
         {
             this.freightType = freightType;
+        }
+
+        public override void ShowTrainsInfo()
+        {
+            base.ShowTrainsInfo();
+            Console.WriteLine($"MaxWeight: {GetMaxWeight()} ; FreightType: {GetFreightType()}");
         }
     }
 }

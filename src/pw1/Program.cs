@@ -38,22 +38,24 @@ namespace PWTrainstation
                 catch (FormatException)
                 {
                     Console.WriteLine("Error, please enter the correct data type.");
+                    Console.ReadLine();
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
+                    Console.ReadLine();
                 }
                 switch (option)
                 {
                     case 1:
                         Console.Write("Enter file path: ");
                         string filePath = Console.ReadLine();
-                        //load aircraft from file using path given by user
+                        //load train from file using a path given by user
                         station.LoadTrainsFromFile(filePath);
                         Console.ReadLine();
                         break;
                     case 2:
-                        //lol
+                        station.StartSimulation();
                         break;
                     case 3:
                         exit = true;
