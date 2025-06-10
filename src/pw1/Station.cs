@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 /*Platforms (List<Platform>): Collection of all platforms available in the station.
 Trains (List<Train>): Collection of all trains being managed by the station (both en route and docked).
 
@@ -10,18 +11,64 @@ namespace PWTrainstation
 {
     public class Station
     {
-        private List<Platform> Platforms;
-        private List<Train> Trains; 
+        private List<Platform> platforms;
+        private List<Train> trains;
 
-        public Station()
+        public Station(int numberPlatforms) //como se pide al usuario el n plataformas, tendré que hacer un for aqui dentro
         {
-            this.Platforms = 
-            [
-                new Platform(), //rellenar el contructr
-                new Platform(),
-                new Platform(),
-            ];
-            this.Trains = new List<Train>();
+            this.platforms = new List<Platform>();
+            this.trains = new List<Train>();
+            for (int i = 1; i <= numberPlatforms; i++)
+            {
+                platforms.Add(new Platform($"Platform-{i.ToString()}"));
+            }
+        }
+        public void LoadTrainsFromFile(string filePath)
+        {
+            try
+            {
+                if (File.Exists(filePath))
+                {
+                    foreach (string line in File.ReadAllLines(filePath))
+                    {
+                        //I make the split to read the values of the csv
+                        string[] trainValues = line.Split(",");
+
+                        if (trainValues[2] == "Freight")
+                        {
+                            trains.Add(new FreightTrain(trainValues[0],
+                                        Convert.ToInt32(trainValues[1]),
+                                                        trainValues[2],
+                                        Convert.ToInt32(trainValues[3]),
+                                                        trainValues[4]));
+                        }
+                        if (trainValues[2] == "Passenger")
+                        {
+                            trains.Add(new PassengerTrain(trainValues[0],
+                                          Convert.ToInt32(trainValues[1]),
+                                                          trainValues[2],
+                                          Convert.ToInt32(trainValues[3]),
+                                          Convert.ToInt32(trainValues[4])));
+                        }
+                    }
+                }
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
     }
 }

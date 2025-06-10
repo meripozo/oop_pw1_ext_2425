@@ -6,31 +6,68 @@ ArrivalTime (int): Time remaining until arrival at the station.
 Type (string): Train type stored as text (passenger, freight).*/
 namespace PWTrainstation
 {
-    public class Train //no es abstracta pq Platform tiene un CurrentTrain??
+    public abstract class Train
     {
-        public string id;
+        protected string id;
 
-        public Status status;
-        public int arrivalTime;
-        public string type;
+        protected Status status;
+        protected int arrivalTime;
+        protected string type;
 
 
-        public enum Status
+        public enum Status : int
         {
-            EnRoute,
-            Waiting,
-            Docking,
-            Docked
+            EnRoute = 1,
+            Waiting = 2,
+            Docking = 3,
+            Docked = 4
         }
 
-        public Train(string id, Status status, int arrivalTime, string type)
+        public Train(string id, int arrivalTime, string type)
         {
             this.id = id;
-            this.status = status;
+            this.status = Status.EnRoute;
             this.arrivalTime = arrivalTime;
             this.type = type;
         }
 
+        public string GetId()
+        {
+            return this.id;
+        }
+        public void SetId()
+        {
+            this.id = id;
+        }
+        public int GetArrivalTime()
+        {
+            return this.arrivalTime;
+        }
+        public void SetArrivalTime()
+        {
+            this.arrivalTime = arrivalTime;
+        }
+        public string GetType()
+        {
+            return this.type;
+        }
+        public void SetType()
+        {
+            this.type = type;
+        }
+        public Status GetStatus()
+        {
+            return this.status;
+        }
+        public void SetStatus(Status status)
+        {
+            this.status = status;
+        }
+
+        public void ShowInfo()
+        {
+            Console.WriteLine($"Id: {GetId()} ; Status: {GetStatus()} ; Arrival Time: {GetArrivalTime()}");
+        }
 
          
     }

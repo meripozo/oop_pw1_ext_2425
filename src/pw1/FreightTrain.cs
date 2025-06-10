@@ -5,14 +5,30 @@ namespace PWTrainstation
 {
     public class FreightTrain : Train
     {
-        public int maxWeight;
-        public string freightType;
+        private int maxWeight;
+        private string freightType;
 
-        public FreightTrain(int maxWeight, string freightType, string id, Status status, int arrivalTime, string type) : base(id, status, arrivalTime, type)
+        public FreightTrain(string id, int arrivalTime, string type, int maxWeight, string freightType) : base(id, arrivalTime, type)
         {
             this.maxWeight = maxWeight;
             this.freightType = freightType;
         }
-         
+
+        public int GeMaxWeight()
+        {
+            return this.maxWeight;
+        }
+        public void SetMaxWeight()
+        {
+            this.maxWeight = maxWeight;
+        }
+        public string GeFreightType()
+        {
+            return this.freightType;
+        }
+        public void SetFreightType()
+        {
+            this.freightType = freightType;
+        }
     }
 }

@@ -1,0 +1,3 @@
+ID,ArrivalTime,Type,AdditionalData1,AdditionalData2
+P001,120,Passenger,5,200
+M002,45,Freight,15000,Containers

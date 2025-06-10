@@ -9,28 +9,58 @@ namespace PWTrainstation
 {
     public class Platform
     {
-        public string id;
-        public Status status;
-        public Train CurrentTrain;
-        public int dockingTime;
+        private string id;
+        private Status status;
+        private Train? currentTrain;
+        private int dockingTime;
 
-        public enum Status
+        public enum Status : int
         {
-            Free,
-            Occupied
-        }
-        public Platform()
-        {
-            this.CurrentTrain = new Train();
+            Free = 0,
+            Occupied = 1
         }
 
-        public Platform(string id, Status status, int dockingTime)
+
+        public Platform(string id) //no pongo sttus en parámetros delc ontructor pq inicialmente el platform está free por defecto (todos los trenes están EnRoute). Asímismo, dockingTime siempre tendrá valor de 2 ticks 
         {
             this.id = id;
-            this.status = status;
-            this.dockingTime = dockingTime;
+            this.status = Status.Free;
+            this.dockingTime = 2;
+            this.currentTrain = null; //inicialmente no hay trenes (todos los trenes están EnRoute)
 
         }
+
+        public string Getid()
+        {
+            return this.id;
+        }
+        public void SetId()
+        {
+            this.id = id;
+        }
+        public int GeDockingTime()
+        {
+            return this.dockingTime;
+        }
+        public Train GetCurrentTrain()
+        {
+            return this.currentTrain;
+        }
+        public void SetCurrentTrain(Train currentTrain)
+        {
+            this.currentTrain = currentTrain;
+        }
+        public Status GetStatus()
+        {
+            return this.status;
+        }
+        public void SetStatus(Status status)
+        {
+            this.status = status;
+        }
+
+
+
 
     }
 }

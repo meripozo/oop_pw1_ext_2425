@@ -5,13 +5,31 @@ namespace PWTrainstation
 {
     public class PassengerTrain : Train
     {
-        public int numberOfCarriages;
-        public int capacity;
+        private int numberOfCarriages;
+        private int capacity;
 
-        public PassengerTrain(int numberOfCarriages, int capacity, string id, Status status, int arrivalTime, string type) : base(id, status, arrivalTime, type)
+        public PassengerTrain(string id, int arrivalTime, string type, int numberOfCarriages, int capacity) : base(id, arrivalTime, type)
         {
             this.numberOfCarriages = numberOfCarriages;
             this.capacity = capacity;
         }
+
+        public int GeNumberOfCarriages()
+        {
+            return this.numberOfCarriages;
+        }
+        public void SetNumberOfCarriages()
+        {
+            this.numberOfCarriages = numberOfCarriages;
+        }
+        public int GeCapacity()
+        {
+            return this.capacity;
+        }
+        public void SetCapacity()
+        {
+            this.capacity = capacity;
+        }
+
     }
 }
