@@ -34,13 +34,13 @@ namespace PWTrainstation
         {
             return this.id;
         }
-        public void SetId()
-        {
-            this.id = id;
-        }
         public int GetDockingTime()
         {
             return this.dockingTime;
+        }
+        public void SetDockingTime(int dockingTime)
+        {
+            this.dockingTime = dockingTime;
         }
         public Train GetCurrentTrain()
         {

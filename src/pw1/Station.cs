@@ -78,7 +78,18 @@ namespace PWTrainstation
 
         public void StartSimulation()
         {
-            
+            bool simulationStop = false;
+            Console.WriteLine("The simulation is stating right now!");
+
+            while (!simulationStop)
+            {
+                Console.Clear();
+                DisplayStatus();
+
+                Console.WriteLine("Press any key to advance 1 tick.");
+                Console.ReadLine();
+                //AdvanceTick() here
+            }
         }
         public void DisplayStatus()
         {

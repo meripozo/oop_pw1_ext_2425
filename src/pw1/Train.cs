@@ -14,7 +14,6 @@ namespace PWTrainstation
         protected int arrivalTime;
         protected string type;
 
-
         public enum Status : int
         {
             EnRoute = 1,
@@ -35,10 +34,6 @@ namespace PWTrainstation
         {
             return this.id;
         }
-        public void SetId()
-        {
-            this.id = id;
-        }
         public int GetArrivalTime()
         {
             return this.arrivalTime;
@@ -50,10 +45,6 @@ namespace PWTrainstation
         public string GetType()
         {
             return this.type;
-        }
-        public void SetType()
-        {
-            this.type = type;
         }
         public Status GetStatus()
         {

@@ -18,17 +18,9 @@ namespace PWTrainstation
         {
             return this.numberOfCarriages;
         }
-        public void SetNumberOfCarriages()
-        {
-            this.numberOfCarriages = numberOfCarriages;
-        }
         public int GetCapacity()
         {
             return this.capacity;
-        }
-        public void SetCapacity()
-        {
-            this.capacity = capacity;
         }
 
         public override void ShowTrainsInfo()

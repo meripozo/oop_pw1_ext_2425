@@ -18,17 +18,9 @@ namespace PWTrainstation
         {
             return this.maxWeight;
         }
-        public void SetMaxWeight()
-        {
-            this.maxWeight = maxWeight;
-        }
         public string GetFreightType()
         {
             return this.freightType;
-        }
-        public void SetFreightType()
-        {
-            this.freightType = freightType;
         }
 
         public override void ShowTrainsInfo()
