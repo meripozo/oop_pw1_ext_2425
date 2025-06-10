@@ -1,10 +1,5 @@
 using System;
-using System.Net;
-/*ID (string): Unique identifier of the platform.
-Status (enum): Free, Occupied.
-CurrentTrain (Train): The train stopped in the platform. 
-DockingTime (int): Number of ticks required for docking (default: 2)
-*/
+
 namespace PWTrainstation
 {
     public class Platform
@@ -19,7 +14,6 @@ namespace PWTrainstation
             Free = 0,
             Occupied = 1
         }
-
 
         public Platform(string id) //no pongo sttus en parámetros delc ontructor pq inicialmente el platform está free por defecto (todos los trenes están EnRoute). Asímismo, dockingTime siempre tendrá valor de 2 ticks 
         {

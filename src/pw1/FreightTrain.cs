@@ -1,6 +1,5 @@
 using System;
-/*MaxWeight (int): The maximum weight (in kilograms) the train is capable of transporting.
-FreightType (string): Type of cargo being transported (e.g., containers, liquids, coal).*/
+
 namespace PWTrainstation
 {
     public class FreightTrain : Train

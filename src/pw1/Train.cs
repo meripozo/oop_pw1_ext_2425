@@ -1,9 +1,5 @@
 using System;
-using System.Data.Common;
-/*ID (string): Unique identifier of the train.
-Status (enum): The possible values are EnRoute, Waiting, Docking, Docked.
-ArrivalTime (int): Time remaining until arrival at the station.
-Type (string): Train type stored as text (passenger, freight).*/
+
 namespace PWTrainstation
 {
     public abstract class Train
@@ -38,7 +34,7 @@ namespace PWTrainstation
         {
             return this.arrivalTime;
         }
-        public void SetArrivalTime()
+        public void SetArrivalTime(int arrivalTime)
         {
             this.arrivalTime = arrivalTime;
         }
@@ -59,7 +55,5 @@ namespace PWTrainstation
         {
             Console.Write($"Id: {GetId()} ; Status: {GetStatus()} ; Arrival Time: {GetArrivalTime()} ; Type: {GetType()}");
         }
-
-         
     }
 }

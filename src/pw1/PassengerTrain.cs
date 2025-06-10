@@ -1,6 +1,5 @@
-/*NumberOfCarriages (int): The total number of carriages attached to the passenger train
-Capacity (int): The maximum number of passengers the train can carry.*/
 using System;
+
 namespace PWTrainstation
 {
     public class PassengerTrain : Train
