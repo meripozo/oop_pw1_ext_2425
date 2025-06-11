@@ -69,6 +69,48 @@ namespace PWTrainstation
             }
         }
 
+        public void AdvanceTick()
+        {
+            //This method advances time by 15 minutes, updating train arrival times
+            foreach (Train train in trains)
+            {
+                train.SetArrivalTime(train.GetArrivalTime() - 15);
+                if (train.GetArrivalTime() == 0)
+                {
+                    CheckTrains();
+
+                }
+            }
+        }
+        public void CheckTrains()
+        {
+            foreach (Train train in trains)
+            {
+                foreach (Platform platform in platforms)
+                {
+                    if (platform.GetStatus() == Platform.Status.Free)
+                    {
+                        train.SetStatus(Train.Status.Docking);
+                        platform.SetStatus(Platform.Status.Occupied);
+
+                        
+                        platform.SetDockingTime(platform.GetDockingTime() - 1);
+                        if (platform.GetDockingTime() == 0)
+                        {
+                            train.SetStatus(Train.Status.Docked);
+
+                            Console.WriteLine("Releasing platform...");
+                            Console.ReadLine();
+                            //llamar aqui a ReleaseTrainFromPlatform()
+
+                        }             
+                    }
+                }
+                train.SetStatus(Train.Status.Waiting);
+            }
+            
+        }
+
         public void StartSimulation()
         {
             bool simulationStop = false;

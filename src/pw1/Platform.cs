@@ -21,7 +21,6 @@ namespace PWTrainstation
             this.status = Status.Free;
             this.dockingTime = 2;
             this.currentTrain = null; //inicialmente no hay trenes (todos los trenes están EnRoute)
-
         }
 
         public string GetId()
