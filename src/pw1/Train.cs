@@ -53,7 +53,7 @@ namespace PWTrainstation
 
         public virtual void ShowTrainsInfo()
         {
-            Console.Write($"Id: {GetId()} ; Status: {GetStatus()} ; Arrival Time: {GetArrivalTime()} ; Type: {GetType()}");
+            Console.Write($"Id: {GetId()} ; Status: {GetStatus()} ; Arrival Time: {GetArrivalTime()} ; Type: {GetType()} ; ");
         }
     }
 }

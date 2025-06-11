@@ -56,7 +56,7 @@ namespace PWTrainstation
         {
             if (GetStatus() == Status.Free)
             {
-                Console.Write($"Id: {GetId()} ; Status: {GetStatus()}");
+                Console.WriteLine($"Id: {GetId()} ; Status: {GetStatus()}");
             }
             else
             {

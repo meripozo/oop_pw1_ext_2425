@@ -7,7 +7,8 @@ namespace PWTrainstation
         public static void Main(string[] args)
         {
             Console.Write("To start the program, please enter the number of platforms in the Train Station: ");
-            int numberPlatforms = Convert.ToInt32(Console.ReadLine()); //falta hacer aqui try catch para controlar input
+            
+            int numberPlatforms = Convert.ToInt32(Console.ReadLine()); 
 
             Station station = new Station(numberPlatforms);
 
@@ -16,7 +17,7 @@ namespace PWTrainstation
 
             int option = 0;
             
-            while (!exit) 
+            while (!exit || option != 3) 
             {
                 try
                 {
@@ -52,7 +53,9 @@ namespace PWTrainstation
                         string? filePath = Console.ReadLine();
                         //load train from file using a path given by user
                         station.LoadTrainsFromFile(filePath);
+                        Console.WriteLine("Trains loaded successfully!");
                         Console.ReadLine();
+                        
                         break;
                     case 2:
                         station.StartSimulation();

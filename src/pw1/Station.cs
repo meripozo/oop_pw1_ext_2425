@@ -78,10 +78,13 @@ namespace PWTrainstation
                 if (train.GetArrivalTime() == 0)
                 {
                     CheckTrains();
-
                 }
             }
         }
+        //In case the user doesn't know how many trains are in the CSV, when asked for the number of platforms,
+        //they may not enter an adequate number of platforms so that all trains are docked at the same time on the platforms.
+        //(they may not enter 15 platforms); That's why I do platform.SetCurrentTrain(null); platform.SetStatus(Platform.Status.Free);
+        //to release the previous train that is already in the Docked state, to make way for the next train on the platform (without changing the state of the old train)
         public void CheckTrains()
         {
             foreach (Train train in trains)
@@ -90,10 +93,11 @@ namespace PWTrainstation
                 {
                     if (platform.GetStatus() == Platform.Status.Free)
                     {
+                        platform.SetCurrentTrain(train); //here we occupy the platform
+
                         train.SetStatus(Train.Status.Docking);
                         platform.SetStatus(Platform.Status.Occupied);
 
-                        
                         platform.SetDockingTime(platform.GetDockingTime() - 1);
                         if (platform.GetDockingTime() == 0)
                         {
@@ -101,16 +105,15 @@ namespace PWTrainstation
 
                             Console.WriteLine("Releasing platform...");
                             Console.ReadLine();
-                            //llamar aqui a ReleaseTrainFromPlatform()
-
-                        }             
+                            
+                            platform.SetCurrentTrain(null);
+                            platform.SetStatus(Platform.Status.Free);
+                        }
                     }
                 }
                 train.SetStatus(Train.Status.Waiting);
             }
-            
         }
-
         public void StartSimulation()
         {
             bool simulationStop = false;
@@ -123,7 +126,8 @@ namespace PWTrainstation
 
                 Console.WriteLine("Press any key to advance 1 tick.");
                 Console.ReadLine();
-                //AdvanceTick() here
+
+                AdvanceTick();
             }
         }
         public void DisplayStatus()
