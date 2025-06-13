@@ -19,33 +19,58 @@ namespace PWTrainstation
         }
         public void LoadTrainsFromFile()
         {
-            Console.Write("Enter file path: ");
+            Console.Write("Please enter the file path: ");
             string? filePath = Console.ReadLine();
             try
             {
                 if (File.Exists(filePath))
                 {
-                    foreach (string line in File.ReadAllLines(filePath))
-                    {
-                        //I make the split to read the values of the csv
-                        string[] trainValues = line.Split(",");
+                    List<Train> tempTrains = new List<Train>();
+                    string[] lines = File.ReadAllLines(filePath);
 
-                        if (trainValues[2] == "Freight")
+                    for (int i = 1; i < lines.Length; i++)
+                    {
+                        string line = lines[i];
+                        string[] trainValues = line.Split(",");
+                        if (trainValues.Length != 5)
                         {
-                            trains.Add(new FreightTrain(trainValues[0],
-                                        Convert.ToInt32(trainValues[1]),
-                                                        trainValues[2],
-                                        Convert.ToInt32(trainValues[3]),
-                                                        trainValues[4]));
+                            Console.WriteLine("Formatting error: Each line must have 5 values.");
+                            return;
                         }
-                        if (trainValues[2] == "Passenger")
+                        try
                         {
-                            trains.Add(new PassengerTrain(trainValues[0],
-                                          Convert.ToInt32(trainValues[1]),
-                                                          trainValues[2],
-                                          Convert.ToInt32(trainValues[3]),
-                                          Convert.ToInt32(trainValues[4])));
+                            if (trainValues[2] == "Freight")
+                            {
+                                tempTrains.Add(new FreightTrain(trainValues[0],
+                                    Convert.ToInt32(trainValues[1]),
+                                    trainValues[2],
+                                    Convert.ToInt32(trainValues[3]),
+                                    trainValues[4]));
+                            }
+                            else if (trainValues[2] == "Passenger")
+                            {
+                                tempTrains.Add(new PassengerTrain(trainValues[0],
+                                    Convert.ToInt32(trainValues[1]),
+                                    trainValues[2],
+                                    Convert.ToInt32(trainValues[3]),
+                                    Convert.ToInt32(trainValues[4])));
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Formatting error.");
+                                Console.WriteLine("No trains were loaded.");
+                                return;
+                            }
                         }
+                        catch (FormatException)
+                        {
+                            Console.WriteLine("Formatting error: Could not parse numeric values.");
+                            return;
+                        }
+                    }
+                    foreach (Train train in tempTrains)
+                    {
+                        trains.Add(train);
                     }
                     Console.WriteLine("Trains loaded successfully!");
                 }
@@ -55,11 +80,6 @@ namespace PWTrainstation
                 }
             }
             catch (FileNotFoundException e)
-            {
-                Console.WriteLine(e.Message);
-                Console.ReadLine();
-            }
-            catch (FormatException e)
             {
                 Console.WriteLine(e.Message);
                 Console.ReadLine();
@@ -75,10 +95,13 @@ namespace PWTrainstation
                 Console.ReadLine();
             }
         }
-
+        
+        //In case the user doesn't know how many trains are in the CSV, when asked for the number of platforms,
+        //they may not enter an adequate number of platforms so that all trains are docked at the same time on the platforms.
+        //(they may not enter 15 platforms); That's why I do platform.SetCurrentTrain(null); platform.SetStatus(Platform.Status.Free);
+        //to release the previous train that is already in the Docked state, to make way for the next train on the platform (without changing the state of the old train)
         public void AdvanceTick()
         {
-            //This method advances time by 15 minutes, updating train arrival times
             foreach (Train train in trains)
             {
                 if (train.GetStatus() == Train.Status.EnRoute || train.GetStatus() == Train.Status.Waiting)
@@ -89,22 +112,18 @@ namespace PWTrainstation
                         newArrival = 0;
                     }
                     train.SetArrivalTime(newArrival);
-
                 }
             }
             CheckTrains();
         }
-        //In case the user doesn't know how many trains are in the CSV, when asked for the number of platforms,
-        //they may not enter an adequate number of platforms so that all trains are docked at the same time on the platforms.
-        //(they may not enter 15 platforms); That's why I do platform.SetCurrentTrain(null); platform.SetStatus(Platform.Status.Free);
-        //to release the previous train that is already in the Docked state, to make way for the next train on the platform (without changing the state of the old train)
+
         public void CheckTrains()
         {
+            //Liberar plataformas si el docking ha terminado
             foreach (Platform platform in platforms)
             {
                 if (platform.GetStatus() == Platform.Status.Occupied)
                 {
-                    //solo cuando la plataforma está ocupada, entonces es cuando verifica si el tren está Docking, y además tengo que verificar que no esté null el tren de la plataforma, porque inicialmente están todas vacías(a null).
                     if (platform.GetCurrentTrain() != null && platform.GetCurrentTrain().GetStatus() == Train.Status.Docking)
                     {
                         platform.SetDockingTime(platform.GetDockingTime() - 1);
@@ -117,11 +136,13 @@ namespace PWTrainstation
                     }
                 }
             }
+
+            //Asignar plataformas a trenes que han llegado y están esperando o en ruta
             foreach (Train train in trains)
             {
                 if (train.GetArrivalTime() == 0 && (train.GetStatus() == Train.Status.EnRoute || train.GetStatus() == Train.Status.Waiting))
                 {
-                    bool platformOccupied = false;
+                    bool assigned = false;
                     foreach (Platform platform in platforms)
                     {
                         if (platform.GetStatus() == Platform.Status.Free)
@@ -130,17 +151,18 @@ namespace PWTrainstation
                             train.SetStatus(Train.Status.Docking);
                             platform.SetStatus(Platform.Status.Occupied);
                             platform.SetDockingTime(2);
-                            platformOccupied = true;
+                            assigned = true;
                             return;
                         }
                     }
-                    if (!platformOccupied)
+                    if (!assigned)
                     {
                         train.SetStatus(Train.Status.Waiting);
                     }
                 }
-            }    
+            }
         }
+
         public void StartSimulation()
         {
             bool simulationStop = false;
@@ -156,6 +178,7 @@ namespace PWTrainstation
                 Console.ReadKey();
 
                 AdvanceTick();
+
                 simulationStop = true;
                 foreach (Train train in trains)
                 {
@@ -166,7 +189,6 @@ namespace PWTrainstation
                 }
             }
             Console.Clear();
-            //here I call DisplayStatus() again, in order to print the latest actualization of the list.
             DisplayStatus();
             Console.WriteLine("All trains are docked. Exiting simulation...");
             Console.ReadLine();

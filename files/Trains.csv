@@ -8,7 +8,7 @@ P006,200,Passenger,6,300
 M007,30,Freight,12000,Coal
 P008,150,Passenger,7,350
 P009,170,Passenger,4,180
-M010,90,Freight,14000,Automobiles
+M010,90,Freight,14000,1
 P011,100,Passenger,9,420
 M012,55,Freight,11000,Liquids
 P013,185,Passenger,6,250
