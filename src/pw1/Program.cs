@@ -6,17 +6,33 @@ namespace PWTrainstation
     {
         public static void Main(string[] args)
         {
-            Console.Write("To start the program, please enter the number of platforms in the Train Station: ");
-            
-            int numberPlatforms = Convert.ToInt32(Console.ReadLine()); 
+            //variables I use for controlling flow of program
+            bool exit = false;
+            int option = 0;
+            int numberPlatforms = 0;
+            bool validInput = false;
+            do
+            {
+                try
+                {
+                    Console.Write("To start the program, please enter the number of platforms in the Train Station: ");
+                    numberPlatforms = Convert.ToInt32(Console.ReadLine());
+                    validInput = true;
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.ReadLine();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    Console.ReadLine();
+                }
+            } while (!validInput);
 
             Station station = new Station(numberPlatforms);
 
-            //variables I use for controlling flow of program
-            bool exit = false;
-
-            int option = 0;
-            
             while (!exit || option != 3) 
             {
                 try
@@ -46,13 +62,14 @@ namespace PWTrainstation
                     Console.WriteLine(e.Message);
                     Console.ReadLine();
                 }
+                
                 switch (option)
                 {
                     case 1:
                         //load train from file using a path given by user
                         station.LoadTrainsFromFile();
                         Console.ReadLine();
-                        
+
                         break;
                     case 2:
                         station.StartSimulation();

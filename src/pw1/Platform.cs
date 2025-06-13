@@ -39,11 +39,6 @@ namespace PWTrainstation
         {
             return this.currentTrain;
         }
-        public string GetCurrentTrainId()
-        {
-
-            return currentTrain.GetId();
-        }
         public void SetCurrentTrain(Train currentTrain)
         {
             this.currentTrain = currentTrain;
