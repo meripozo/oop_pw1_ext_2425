@@ -39,6 +39,11 @@ namespace PWTrainstation
         {
             return this.currentTrain;
         }
+        public string GetCurrentTrainId()
+        {
+
+            return currentTrain.GetId();
+        }
         public void SetCurrentTrain(Train currentTrain)
         {
             this.currentTrain = currentTrain;
@@ -60,7 +65,7 @@ namespace PWTrainstation
             }
             else
             {
-                Console.Write($"Id: {GetId()} ; Status: {GetStatus()} ; Current Train: {GetCurrentTrain().GetId()} ; Ticks Remaining: {GetDockingTime()}");
+                Console.WriteLine($"Id: {GetId()} ; Status: {GetStatus()} ; Current Train: {GetCurrentTrain().GetId()} ; Ticks Remaining: {GetDockingTime()}");
             }
         }
     }

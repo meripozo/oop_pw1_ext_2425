@@ -77,7 +77,8 @@ namespace PWTrainstation
                 train.SetArrivalTime(train.GetArrivalTime() - 15);
                 if (train.GetArrivalTime() == 0)
                 {
-                    CheckTrains();
+                    Train currentTrain = train;
+                    CheckTrains(currentTrain);
                 }
             }
         }
@@ -85,39 +86,45 @@ namespace PWTrainstation
         //they may not enter an adequate number of platforms so that all trains are docked at the same time on the platforms.
         //(they may not enter 15 platforms); That's why I do platform.SetCurrentTrain(null); platform.SetStatus(Platform.Status.Free);
         //to release the previous train that is already in the Docked state, to make way for the next train on the platform (without changing the state of the old train)
-        public void CheckTrains()
+        public void CheckTrains(Train currentTrain)
         {
-            foreach (Train train in trains)
+            for (int i = 0; i < platforms.Count(); i++)
             {
-                foreach (Platform platform in platforms)
+                if (platforms[i] != null)
                 {
-                    if (platform.GetStatus() == Platform.Status.Free)
+                    if (platforms[i].GetStatus() == Platform.Status.Free)
                     {
-                        platform.SetCurrentTrain(train); //here we occupy the platform
-
-                        train.SetStatus(Train.Status.Docking);
-                        platform.SetStatus(Platform.Status.Occupied);
-
-                        platform.SetDockingTime(platform.GetDockingTime() - 1);
-                        if (platform.GetDockingTime() == 0)
+                        if (platforms[i].GetCurrentTrainId() != currentTrain.GetId()) //da exception aqui pq siempre se inicializa a null
                         {
-                            train.SetStatus(Train.Status.Docked);
+                            platforms[i].SetCurrentTrain(currentTrain); //here we occupy the platform
 
-                            Console.WriteLine("Releasing platform...");
-                            Console.ReadLine();
-                            
-                            platform.SetCurrentTrain(null);
-                            platform.SetStatus(Platform.Status.Free);
+                            currentTrain.SetStatus(Train.Status.Docking);
+                            platforms[i].SetStatus(Platform.Status.Occupied);
+
+                            platforms[i].SetDockingTime(platforms[i].GetDockingTime() - 1);
+                            if (platforms[i].GetDockingTime() == 0)
+                            {
+                                currentTrain.SetStatus(Train.Status.Docked);
+
+                                Console.WriteLine("Releasing platform...");
+                                Console.ReadLine();
+
+                                platforms[i].SetCurrentTrain(null);
+                                platforms[i].SetStatus(Platform.Status.Free);
+                            }
                         }
                     }
                 }
-                train.SetStatus(Train.Status.Waiting);
-            }
+              
+                        //Platform platforms[i] = platforms[i];
+            }    
+            currentTrain.SetStatus(Train.Status.Waiting);
         }
         public void StartSimulation()
         {
             bool simulationStop = false;
             Console.WriteLine("The simulation is stating right now!");
+            Console.ReadLine();
 
             while (!simulationStop)
             {
@@ -132,6 +139,7 @@ namespace PWTrainstation
         }
         public void DisplayStatus()
         {
+            Console.Clear();
             Console.WriteLine("TRAIN STATION STATE:");
             Console.WriteLine("\nPLATFORMS:");
             foreach (Platform platform in platforms)
