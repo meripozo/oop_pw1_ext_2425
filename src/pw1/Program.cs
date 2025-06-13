@@ -49,11 +49,8 @@ namespace PWTrainstation
                 switch (option)
                 {
                     case 1:
-                        Console.Write("Enter file path: ");
-                        string? filePath = Console.ReadLine();
                         //load train from file using a path given by user
-                        station.LoadTrainsFromFile(filePath);
-                        Console.WriteLine("Trains loaded successfully!");
+                        station.LoadTrainsFromFile();
                         Console.ReadLine();
                         
                         break;

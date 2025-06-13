@@ -17,8 +17,10 @@ namespace PWTrainstation
                 platforms.Add(new Platform($"Platform-{i.ToString()}"));
             }
         }
-        public void LoadTrainsFromFile(string filePath)
+        public void LoadTrainsFromFile()
         {
+            Console.Write("Enter file path: ");
+            string? filePath = Console.ReadLine();
             try
             {
                 if (File.Exists(filePath))
@@ -45,6 +47,11 @@ namespace PWTrainstation
                                           Convert.ToInt32(trainValues[4])));
                         }
                     }
+                    Console.WriteLine("Trains loaded successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("File not found. Please check the file path and try again.");
                 }
             }
             catch (FileNotFoundException e)
@@ -74,51 +81,65 @@ namespace PWTrainstation
             //This method advances time by 15 minutes, updating train arrival times
             foreach (Train train in trains)
             {
-                train.SetArrivalTime(train.GetArrivalTime() - 15);
-                if (train.GetArrivalTime() == 0)
+                if (train.GetStatus() == Train.Status.EnRoute || train.GetStatus() == Train.Status.Waiting)
                 {
-                    Train currentTrain = train;
-                    CheckTrains(currentTrain);
+                    int newArrival = train.GetArrivalTime() - 15;
+                    if (newArrival < 0)
+                    {
+                        newArrival = 0;
+                    }
+                    train.SetArrivalTime(newArrival);
+
                 }
             }
+            CheckTrains();
         }
         //In case the user doesn't know how many trains are in the CSV, when asked for the number of platforms,
         //they may not enter an adequate number of platforms so that all trains are docked at the same time on the platforms.
         //(they may not enter 15 platforms); That's why I do platform.SetCurrentTrain(null); platform.SetStatus(Platform.Status.Free);
         //to release the previous train that is already in the Docked state, to make way for the next train on the platform (without changing the state of the old train)
-        public void CheckTrains(Train currentTrain)
+        public void CheckTrains()
         {
-            for (int i = 0; i < platforms.Count(); i++)
+            foreach (Platform platform in platforms)
             {
-                if (platforms[i] != null)
+                if (platform.GetStatus() == Platform.Status.Occupied)
                 {
-                    if (platforms[i].GetStatus() == Platform.Status.Free)
+                    //solo cuando la plataforma está ocupada, entonces es cuando verifica si el tren está Docking, y además tengo que verificar que no esté null el tren de la plataforma, porque inicialmente están todas vacías(a null).
+                    if (platform.GetCurrentTrain() != null && platform.GetCurrentTrain().GetStatus() == Train.Status.Docking)
                     {
-                        if (platforms[i].GetCurrentTrainId() != currentTrain.GetId()) //da exception aqui pq siempre se inicializa a null
+                        platform.SetDockingTime(platform.GetDockingTime() - 1);
+                        if (platform.GetDockingTime() <= 0)
                         {
-                            platforms[i].SetCurrentTrain(currentTrain); //here we occupy the platform
-
-                            currentTrain.SetStatus(Train.Status.Docking);
-                            platforms[i].SetStatus(Platform.Status.Occupied);
-
-                            platforms[i].SetDockingTime(platforms[i].GetDockingTime() - 1);
-                            if (platforms[i].GetDockingTime() == 0)
-                            {
-                                currentTrain.SetStatus(Train.Status.Docked);
-
-                                Console.WriteLine("Releasing platform...");
-                                Console.ReadLine();
-
-                                platforms[i].SetCurrentTrain(null);
-                                platforms[i].SetStatus(Platform.Status.Free);
-                            }
+                            platform.GetCurrentTrain().SetStatus(Train.Status.Docked);
+                            platform.SetCurrentTrain(null);
+                            platform.SetStatus(Platform.Status.Free);
                         }
                     }
                 }
-              
-                        //Platform platforms[i] = platforms[i];
+            }
+            foreach (Train train in trains)
+            {
+                if (train.GetArrivalTime() == 0 && (train.GetStatus() == Train.Status.EnRoute || train.GetStatus() == Train.Status.Waiting))
+                {
+                    bool platformOccupied = false;
+                    foreach (Platform platform in platforms)
+                    {
+                        if (platform.GetStatus() == Platform.Status.Free)
+                        {
+                            platform.SetCurrentTrain(train);
+                            train.SetStatus(Train.Status.Docking);
+                            platform.SetStatus(Platform.Status.Occupied);
+                            platform.SetDockingTime(2);
+                            platformOccupied = true;
+                            return;
+                        }
+                    }
+                    if (!platformOccupied)
+                    {
+                        train.SetStatus(Train.Status.Waiting);
+                    }
+                }
             }    
-            currentTrain.SetStatus(Train.Status.Waiting);
         }
         public void StartSimulation()
         {
@@ -132,10 +153,23 @@ namespace PWTrainstation
                 DisplayStatus();
 
                 Console.WriteLine("Press any key to advance 1 tick.");
-                Console.ReadLine();
+                Console.ReadKey();
 
                 AdvanceTick();
+                simulationStop = true;
+                foreach (Train train in trains)
+                {
+                    if (train.GetStatus() != Train.Status.Docked)
+                    {
+                        simulationStop = false;
+                    }
+                }
             }
+            Console.Clear();
+            //here I call DisplayStatus() again, in order to print the latest actualization of the list.
+            DisplayStatus();
+            Console.WriteLine("All trains are docked. Exiting simulation...");
+            Console.ReadLine();
         }
         public void DisplayStatus()
         {
