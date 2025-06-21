@@ -19,20 +19,20 @@ namespace PWTrainstation
                     numberPlatforms = Convert.ToInt32(Console.ReadLine());
                     validInput = true;
                 }
-                catch (FormatException e)
+                catch (FormatException)
                 {
-                    Console.WriteLine(e.Message);
-                    Console.ReadLine();
+                    Console.WriteLine("Error, please enter a valid integer.");
+                    validInput = false;
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine(e.Message);
-                    Console.ReadLine();
+                    validInput = false;
                 }
             } while (!validInput);
 
             Station station = new Station(numberPlatforms);
-
+            
             while (!exit || option != 3) 
             {
                 try
@@ -62,14 +62,11 @@ namespace PWTrainstation
                     Console.WriteLine(e.Message);
                     Console.ReadLine();
                 }
-                
                 switch (option)
                 {
                     case 1:
-                        //load train from file using a path given by user
                         station.LoadTrainsFromFile();
                         Console.ReadLine();
-
                         break;
                     case 2:
                         station.StartSimulation();

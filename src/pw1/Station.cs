@@ -42,18 +42,18 @@ namespace PWTrainstation
                             if (trainValues[2] == "Freight")
                             {
                                 tempTrains.Add(new FreightTrain(trainValues[0],
-                                    Convert.ToInt32(trainValues[1]),
-                                    trainValues[2],
-                                    Convert.ToInt32(trainValues[3]),
-                                    trainValues[4]));
+                                                Convert.ToInt32(trainValues[1]),
+                                                                trainValues[2],
+                                                Convert.ToInt32(trainValues[3]),
+                                                                trainValues[4]));
                             }
                             else if (trainValues[2] == "Passenger")
                             {
                                 tempTrains.Add(new PassengerTrain(trainValues[0],
-                                    Convert.ToInt32(trainValues[1]),
-                                    trainValues[2],
-                                    Convert.ToInt32(trainValues[3]),
-                                    Convert.ToInt32(trainValues[4])));
+                                                  Convert.ToInt32(trainValues[1]),
+                                                                  trainValues[2],
+                                                  Convert.ToInt32(trainValues[3]),
+                                                  Convert.ToInt32(trainValues[4])));
                             }
                             else
                             {
