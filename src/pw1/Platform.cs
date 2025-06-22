@@ -15,12 +15,14 @@ namespace PWTrainstation
             Occupied = 1
         }
 
-        public Platform(string id) //no pongo sttus en parámetros delc ontructor pq inicialmente el platform está free por defecto (todos los trenes están EnRoute). Asímismo, dockingTime siempre tendrá valor de 2 ticks 
+        //I don't put status in the constructor parameters because initially the platform is free by default (all trains are EnRoute). 
+        //Likewise, dockingTime will always have a value of 2 ticks
+        public Platform(string id)
         {
             this.id = id;
             this.status = Status.Free;
             this.dockingTime = 2;
-            this.currentTrain = null; //inicialmente no hay trenes (todos los trenes están EnRoute)
+            this.currentTrain = null; //Initially there are no trains (all trains are EnRoute)
         }
 
         public string GetId()

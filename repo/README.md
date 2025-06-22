@@ -16,6 +16,9 @@ style="width:3.44792in;height:1.48958in" />
 >
 > **June,** **2025.**
 
+
+
+
 **INDEX**
 
 **Introduction..............................................................................................................................3**
@@ -30,6 +33,8 @@ style="width:3.44792in;height:1.48958in" />
 
 **Conclusion.................................................................................................................................5**
 
+
+
 **Introduction**
 
 This document will explain in detail the most important and fundamental
@@ -37,6 +42,7 @@ aspects of my code development for this project, including a detailed
 description of my solution. I will also explain the fundamental problems
 I faced during the development of this project and the solutions I
 considered. Finally, I will provide a conclusion to the project.
+
 
 **Description** **of** **the** **project**
 
@@ -64,6 +70,7 @@ my solution. The program is composed of the following classes:
 > platforms and a list of trains. In the constructor of this class, I
 > have put numberPlatforms, because initially, the user decides how many
 > platforms there will be in the station.
+
 
 **Station.cs** **Functions**
 
@@ -99,10 +106,14 @@ my solution. The program is composed of the following classes:
 > \- *void* *DisplayStatus()*: This function simply calls the
 > *ShowPlatformsInfo()* and *ShowTrainsInfo()* functions.
 
+
 **Maui** **Class** **Diagram**
 
 The class diagram of my project, which includes the relationships
 between them, is as follows:
+
+<img src="repoPictures/ClassDiagramMariPozo.drawio.png"/>
+
 
 **Problems**
 
@@ -130,6 +141,8 @@ between them, is as follows:
 > in *AdvanceTick()*, I was making changes for only one train each time
 > the loop was executed, instead of for the entire train list at once.
 > Because of this, the same train was always loading on the platforms.
+
+
 
 **Conclusion**
 

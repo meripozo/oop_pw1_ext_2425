@@ -8,7 +8,7 @@ namespace PWTrainstation
         private List<Platform> platforms;
         private List<Train> trains;
 
-        public Station(int numberPlatforms) //como se pide al usuario el n plataformas, tendré que hacer un for aqui dentro
+        public Station(int numberPlatforms) //since the user is asked for the number of platforms, I will have to do a for here
         {
             this.platforms = new List<Platform>();
             this.trains = new List<Train>();
@@ -119,7 +119,7 @@ namespace PWTrainstation
 
         public void CheckTrains()
         {
-            //Liberar plataformas si el docking ha terminado
+            //I release platforms if docking has finished
             foreach (Platform platform in platforms)
             {
                 if (platform.GetStatus() == Platform.Status.Occupied)
@@ -137,7 +137,7 @@ namespace PWTrainstation
                 }
             }
 
-            //Asignar plataformas a trenes que han llegado y están esperando o en ruta
+            //I assign platforms to trains that have arrived and are waiting or en route
             foreach (Train train in trains)
             {
                 if (train.GetArrivalTime() == 0 && (train.GetStatus() == Train.Status.EnRoute || train.GetStatus() == Train.Status.Waiting))
