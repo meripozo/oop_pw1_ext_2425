@@ -1,6 +1,5 @@
 # oop_pw1_ext_2425
-<img src="repoPictures/Logo_UFV.jpg"
-style="width:3.44792in;height:1.48958in" />
+![](repoPictures/Logo_UFV.jpg)
 
 > **ESCUELA** **POLITÉCNICA** **SUPERIOR**
 >
@@ -112,7 +111,7 @@ my solution. The program is composed of the following classes:
 The class diagram of my project, which includes the relationships
 between them, is as follows:
 
-<img src="repoPictures/ClassDiagramMariPozo.drawio.png"/>
+![](repoPictures/ClassDiagramMariPozo.drawio.png)
 
 
 **Problems**
